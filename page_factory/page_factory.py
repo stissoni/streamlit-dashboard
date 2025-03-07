@@ -15,7 +15,7 @@ class PageFactory:
         path = page_query
         data = pd.read_csv("data/" + path)
 
-        st.title(f"🚗 Analisis de {title}")
+        st.title(f"{title}")
         st.sidebar.markdown("## Filtros")
 
         # Set slider for car years
@@ -67,7 +67,7 @@ class PageFactory:
             int(data[data["currency"] == "US$"]["price"].mean()),
         )
 
-        # Price line charts 
+        # Price line charts
         factory = PriceLineChart()
 
         # In $

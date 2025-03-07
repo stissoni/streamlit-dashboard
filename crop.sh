@@ -1,0 +1,1 @@
+python3 crop_images.py $1
