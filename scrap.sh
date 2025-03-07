@@ -1,0 +1,1 @@
+python3 meli_scrapper.py $1
