@@ -8,6 +8,8 @@ a1_page = st.Page("a1.py")
 a3_page = st.Page("a3.py")
 focus_page = st.Page("focus.py")
 
-pg = st.navigation([corolla_page, etios_page, renegade_page])
+pg = st.navigation(
+    [corolla_page, etios_page, renegade_page, a1_page, a3_page, focus_page]
+)
 
 pg.run()
