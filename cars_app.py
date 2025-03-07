@@ -64,6 +64,30 @@ def mondeo():
     factory = PageFactory()
     factory.create_page(path)
 
+def cronos():
+    path = "Fiat-Cronos.csv"
+
+    factory = PageFactory()
+    factory.create_page(path)
+
+def fastback():
+    path = "Fiat-Fastback.csv"
+
+    factory = PageFactory()
+    factory.create_page(path)
+
+
+def tracker():
+    path = "Chevrolet-Tracker.csv"
+
+    factory = PageFactory()
+    factory.create_page(path)
+
+def ecosport():
+    path = "Ford-Ecosport.csv"
+
+    factory = PageFactory()
+    factory.create_page(path)
 
 corolla_page = st.Page(corolla, title="Toyota Corolla", icon="🇯🇵")
 etios_page = st.Page(etios, title="Toyota Etios", icon="🇯🇵")
@@ -74,6 +98,10 @@ compass_page = st.Page(compass, title="Jeep Compass", icon="🇺🇸")
 focus_page = st.Page(focus, title="Ford Focus", icon="🇺🇸")
 mondeo_page = st.Page(mondeo, title="Ford Mondeo", icon="🇺🇸")
 cruze_page = st.Page(cruze, title="Chevrolet Cruze", icon="🇺🇸")
+cronos_page = st.Page(cronos, title="Fiat Cronos", icon="🇮🇹")
+fastback_page = st.Page(fastback, title="Fiat Fastback", icon="🇮🇹")
+tracker_page = st.Page(tracker, title="Chevrolet Tracker", icon="🇺🇸")
+ecosport_page = st.Page(ecosport, title="Ford Ecosport", icon="🇺🇸")
 
 pg = st.navigation(
     [
@@ -85,7 +113,11 @@ pg = st.navigation(
         compass_page,
         focus_page,
         mondeo_page,
+        ecosport_page,
         cruze_page,
+        tracker_page,
+        cronos_page,
+        fastback_page
     ]
 )
 
