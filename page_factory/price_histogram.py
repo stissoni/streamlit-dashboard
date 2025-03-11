@@ -15,8 +15,6 @@ class PriceHistogram:
 
         median_price = data[col].median()
 
-        print("This are the columns: ", data.columns)
-
         # Add vertical line for the median
         fig.add_vline(
             x=median_price,

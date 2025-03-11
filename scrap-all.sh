@@ -1,0 +1,13 @@
+python3 scrap.py Audi-A1
+python3 scrap.py Audi-A3
+python3 scrap.py Chevrolet-Cruze
+python3 scrap.py Chevrolet-Tracker
+python3 scrap.py Fiat-Cronos
+python3 scrap.py Fiat-Fastback
+python3 scrap.py Ford-Ecosport
+python3 scrap.py Ford-Focus
+python3 scrap.py Ford-Mondeo
+python3 scrap.py Jeep-Compass
+python3 scrap.py Jeep-Renegade
+python3 scrap.py Toyota-Corolla
+python3 scrap.py Toyota-Etios

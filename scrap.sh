@@ -1,1 +1,1 @@
-python3 meli_scrapper.py $1
+python3 scrap.py $1
