@@ -65,9 +65,6 @@ class PageFactory:
 
         page_query = f"{manufacturer} {model}"
 
-        st.markdown(
-            "Hola! En esta pagina encontraras toda la informacion sobre autos en venta en Mercado Libre. Nuestro objetivo es ayudarte a que encuentres las mejores oportunidades para el auto que tanto buscas."
-        )
         st.title(f"{page_query}")
 
         st.sidebar.markdown("## Filtros")
