@@ -43,7 +43,9 @@ class DynamoHandler:
 
             while "LastEvaluatedKey" in response:
                 items.extend(response["Items"])
-                response = table.scan(ExclusiveStartKey=response["LastEvaluatedKey"])
+                response = table.scan(
+                    ExclusiveStartKey=response["LastEvaluatedKey"]
+                )
 
             # Add the last batch of items
             items.extend(response.get("Items", []))
@@ -64,7 +66,9 @@ class DynamoHandler:
             while True:
                 query_params = {
                     "IndexName": "ManufacturerModelDateIndex",
-                    "KeyConditionExpression": Key("manufacturer").eq(manufacturer),
+                    "KeyConditionExpression": Key("manufacturer").eq(
+                        manufacturer
+                    ),
                 }
 
                 if last_evaluated_key:
@@ -100,7 +104,10 @@ class DynamoHandler:
                     "Create": {
                         "IndexName": "ManufacturerModelDateIndex",
                         "KeySchema": [
-                            {"AttributeName": "manufacturer", "KeyType": "HASH"},
+                            {
+                                "AttributeName": "manufacturer",
+                                "KeyType": "HASH",
+                            },
                             {"AttributeName": "model", "KeyType": "RANGE"},
                         ],
                         "Projection": {"ProjectionType": "ALL"},
@@ -116,7 +123,6 @@ class DynamoHandler:
             if manufacturer is None and model is None and date is None:
                 # Make a full scan of the table
                 response = table.scan()
-
 
             # Query the Global Secondary Index
             response = table.query(
@@ -170,9 +176,13 @@ if __name__ == "__main__":
     db_handler = DynamoHandler()
 
     # Get listings
-    distinct_manufacturers = db_handler.get_distinct_values("listings", "manufacturer")
+    distinct_manufacturers = db_handler.get_distinct_values(
+        "listings", "manufacturer"
+    )
     print(f"Distinct manufacturers: {distinct_manufacturers}")
 
     for manufacturer in distinct_manufacturers:
-        distinct_models = db_handler.get_distinct_models_by_manufacturer(manufacturer)
+        distinct_models = db_handler.get_distinct_models_by_manufacturer(
+            manufacturer
+        )
         print(f"Distinct models for {manufacturer}: {distinct_models}")

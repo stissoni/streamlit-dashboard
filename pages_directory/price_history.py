@@ -9,54 +9,22 @@ def price_history():
 
     data = get_data()
 
-    manufacturer, model, currency = set_sidebar_filters(data, "price_history")
+    manufacturer, model, currency, year_range, kilometers_range, _ = (
+        set_sidebar_filters(data, "price_history")
+    )
+
+    title = f"Evolucion del precio promedio {manufacturer} {model}"
+    st.title(title)
 
     data = data[
         (data["manufacturer"] == manufacturer)
         & (data["model"] == model)
         & (data["currency"] == currency)
-    ]
-
-    title = f"Evolucion del precio promedio {manufacturer} {model}"
-    st.title(title)
-
-    st.sidebar.markdown("## Filtros")
-
-    # Set slider for car years
-    min_year = data["year"].min()
-    max_year = data["year"].max()
-
-    year_range = st.sidebar.slider(
-        "Años de los autos",
-        min_value=min_year,
-        max_value=max_year,
-        value=(min_year, max_year),
-    )
-
-    # Set slider for car kilometers
-    min_kilometers = data["kilometers"].min()
-    max_kilometers = data["kilometers"].max()
-
-    kilometers_range = st.sidebar.slider(
-        "Kilometros de los autos",
-        min_value=min_kilometers,
-        max_value=max_kilometers,
-        value=(min_kilometers, max_kilometers),
-    )
-
-    # Filter data by year
-    data = data[
-        (data["year"] >= year_range[0]) & (data["year"] <= year_range[1])
-    ]
-
-    # Filter data by kilometers
-    data = data[
-        (data["kilometers"] >= kilometers_range[0])
+        & (data["year"] >= year_range[0])
+        & (data["year"] <= year_range[1])
+        & (data["kilometers"] >= kilometers_range[0])
         & (data["kilometers"] <= kilometers_range[1])
     ]
-
-    # Sort data by date
-    data = data.sort_values(by="date")
 
     # Group data by date and calculate the average price
     price_by_date = data.groupby("date")["price"].mean().reset_index()
@@ -121,8 +89,6 @@ def price_history():
         )
     )
 
-    print(price_by_date.head())
-
     # Improve layout
     fig.update_layout(
         title=title,
@@ -147,16 +113,18 @@ def price_history():
     st.write(price_by_date.set_index("date"))
 
     # Group data by date and calculate the count of cars
-    cars_by_date = data.groupby("date")["price"].count().reset_index()
+    cars_by_date = data.groupby("date").size()
+
+    print(cars_by_date.head())
 
     # Make a Plotly bar chart with the number of cars by year
     fig = go.Figure()
 
-    # Add bar plot
+    # Plot histogram from cars_by_date Series
     fig.add_trace(
         go.Bar(
-            x=cars_by_date["date"],
-            y=cars_by_date["price"],
+            x=cars_by_date.index,
+            y=cars_by_date.values,
             marker_color="#EF553B",
             name="Number of Cars",
         )
@@ -164,9 +132,9 @@ def price_history():
 
     # Improve layout
     fig.update_layout(
-        title="Number of Cars by Year",
-        xaxis_title="Year",
-        yaxis_title="Number of Cars",
+        title=f"Cantidad de {manufacturer} {model} publicados por fecha",
+        xaxis_title="Fecha",
+        yaxis_title="Nummero de autos publicados",
         template="plotly_dark",
         font=dict(size=14),
         legend=dict(x=0.02, y=0.98, bgcolor="rgba(0,0,0,0.1)"),
@@ -175,14 +143,14 @@ def price_history():
             tickangle=-45,  # Optional: Rotate labels for readability
             showgrid=True,  # Optional: Show gridlines
             tickmode="array",  # Use the same tickvals as the data
-            tickvals=cars_by_date[
-                "date"
-            ],  # Use only actual dates from the dataset
+            tickvals=cars_by_date.index,
         ),
     )
 
     st.plotly_chart(fig)
 
+    cars_by_date = cars_by_date.reset_index()
+    cars_by_date.columns = ["date", "count"]
     st.write(cars_by_date.set_index("date"))
 
     print("Price History Page loaded")

@@ -77,11 +77,8 @@ class PriceLineChart:
     def __init__(self):
         pass
 
-    def plot(self, data, currency, title):
+    def plot(self, data, title):
         # Prepare data for plotting
-
-        data = data[(data["currency"] == currency) & (data["year"] < 2026)]
-
         avg_price = data["price"].mean()
 
         price_by_year = data.groupby("year")["price"].mean().reset_index()
