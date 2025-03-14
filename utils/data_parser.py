@@ -15,5 +15,5 @@ class DataParser:
         df["kilometers"] = pd.to_numeric(
             df["kilometers"], errors="coerce", downcast="unsigned"
         )
-
+        
         return df

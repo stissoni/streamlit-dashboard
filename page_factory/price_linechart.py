@@ -1,5 +1,4 @@
 import plotly.graph_objects as go
-import pandas as pd
 
 
 class PriceLineChart:
@@ -59,6 +58,10 @@ class PriceLineChart:
             template="plotly_dark",
             font=dict(size=14),
             legend=dict(x=0.02, y=0.98, bgcolor="rgba(0,0,0,0.1)"),
+            xaxis=dict(
+                tickangle=-45,  # Optional: Rotate labels for readability
+                showgrid=True,  # Optional: Show gridlines
+            ),
         )
 
         return fig

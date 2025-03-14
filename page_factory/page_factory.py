@@ -3,19 +3,7 @@ from .price_histogram import PriceHistogram
 from .price_linechart import PriceLineChart
 from utils.dynamo_handler import DynamoHandler
 from utils.data_parser import DataParser
-
-
-@st.cache_data(ttl=86400)  # 1 day
-def get_data():
-    db_handler = DynamoHandler()
-    data = db_handler.full_scan("listings")
-
-    data_parser = DataParser()
-    df = data_parser.parse(data)
-
-    print("Obtained data from DynamoDB. Total rows:", df.shape[0])
-
-    return df
+from utils.get_data import get_data
 
 
 @st.cache_data(ttl=86400)  # 1 day
@@ -77,6 +65,9 @@ class PageFactory:
 
         page_query = f"{manufacturer} {model}"
 
+        st.markdown(
+            "Hola! En esta pagina encontraras toda la informacion sobre autos en venta en Mercado Libre. Nuestro objetivo es ayudarte a que encuentres las mejores oportunidades para el auto que tanto buscas."
+        )
         st.title(f"{page_query}")
 
         st.sidebar.markdown("## Filtros")
@@ -161,3 +152,6 @@ class PageFactory:
         # Years
         fig = factory.plot(data, "year", "Distribucion de años", nbins=20)
         st.plotly_chart(fig)
+
+        # Show data
+        st.write(data)
