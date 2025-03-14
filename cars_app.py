@@ -41,7 +41,5 @@ history_page = st.Page(price_history, title="Price History", icon="📈")
 
 pg = st.navigation({"Home": [home_page], "Price History": [history_page]})
 
-if should_clear_cache():
-    st.cache_data.clear()
 
 pg.run()
