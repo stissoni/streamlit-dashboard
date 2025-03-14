@@ -38,7 +38,7 @@ def home():
     st.title(f"{page_query}")
 
     # Show KPIs
-    columns = st.columns(3)
+    columns = st.columns(4)
 
     columns[0].metric(f"Autos encontrados en {currency}", data.shape[0])
     columns[1].metric(
@@ -48,6 +48,29 @@ def home():
     columns[2].metric(
         f"Precio promedio en {currency}",
         int(data["price"].mean()),
+    )
+    # Get average price for 2020 cars and 2025 cars
+    data_2020 = data[data["year"] == year_range[1] - 5]
+    data_2024 = data[data["year"] == year_range[1]]
+
+    print("2020:", data_2020.shape[0], "2025:", data_2024.shape[0])
+
+    precio_promedio_2020 = (
+        int(data_2020["price"].mean()) if data_2020.shape[0] > 0 else None
+    )
+    precio_promedio_2024 = (
+        int(data_2024["price"].mean()) if data_2024.shape[0] > 0 else None
+    )
+    prctg = (
+        ((precio_promedio_2024 - precio_promedio_2020) / precio_promedio_2020)
+        if precio_promedio_2020 is not None
+        and precio_promedio_2024 is not None
+        else None
+    )
+
+    columns[3].metric(
+        f"Depreciacion promedio en {currency} a 5 años",
+        f"{prctg:.2%}" if prctg is not None else "N/A",
     )
 
     # Price line charts

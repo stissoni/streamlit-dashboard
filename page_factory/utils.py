@@ -42,8 +42,12 @@ def set_sidebar_filters(df, page_type="home"):
         date = None
 
     # Set slider for car years
-    min_year = df["year"].min()
-    max_year = df["year"].max()
+    min_year = df[(df["model"] == model) & (df["currency"] == currency)][
+        "year"
+    ].min()
+    max_year = df[(df["model"] == model) & (df["currency"] == currency)][
+        "year"
+    ].max()
 
     year_range = st.sidebar.slider(
         "Años de los autos",
