@@ -17,7 +17,7 @@ def parse_data(data):
     )
 
     # Sort by date
-    df = df.sort_values(by="date", ascending=True)
+    df = df.sort_values(by="date", ascending=False)
 
     return df
 
