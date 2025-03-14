@@ -1,6 +1,6 @@
 import streamlit as st
-from page_factory.page_factory import get_sidebar_filters
-from utils.get_data import get_data
+from page_factory.utils import set_sidebar_filters
+from data_utils.get_data import get_data
 import plotly.graph_objects as go
 
 
@@ -8,16 +8,8 @@ def price_history():
     st.set_page_config(page_title="History", layout="wide")
 
     data = get_data()
-    car_data = get_sidebar_filters(data)
 
-    manufacturer = st.sidebar.selectbox("Select Manufacturer", list(car_data.keys()))
-
-    if manufacturer:
-        model = st.sidebar.selectbox("Select Model", car_data[manufacturer]["models"])
-    else:
-        model = None
-
-    currency = st.sidebar.selectbox("Select Currency", ["$", "US$"])
+    manufacturer, model, currency = set_sidebar_filters(data, "price_history")
 
     data = data[
         (data["manufacturer"] == manufacturer)
@@ -53,7 +45,9 @@ def price_history():
     )
 
     # Filter data by year
-    data = data[(data["year"] >= year_range[0]) & (data["year"] <= year_range[1])]
+    data = data[
+        (data["year"] >= year_range[0]) & (data["year"] <= year_range[1])
+    ]
 
     # Filter data by kilometers
     data = data[
@@ -142,7 +136,9 @@ def price_history():
             tickangle=-45,  # Optional: Rotate labels for readability
             showgrid=True,  # Optional: Show gridlines
             tickmode="array",  # Use the same tickvals as the data
-            tickvals=price_by_date["date"],  # Use only actual dates from the dataset
+            tickvals=price_by_date[
+                "date"
+            ],  # Use only actual dates from the dataset
         ),
     )
 
@@ -179,7 +175,9 @@ def price_history():
             tickangle=-45,  # Optional: Rotate labels for readability
             showgrid=True,  # Optional: Show gridlines
             tickmode="array",  # Use the same tickvals as the data
-            tickvals=cars_by_date["date"],  # Use only actual dates from the dataset
+            tickvals=cars_by_date[
+                "date"
+            ],  # Use only actual dates from the dataset
         ),
     )
 
